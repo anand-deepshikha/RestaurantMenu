@@ -1,20 +1,18 @@
 package restaurant;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Objects;
+
 public class MenuItem {
 
     String itemName;
     float price;
     String description;
     String category;
-    boolean isNew=false;
+    private LocalDate addedOn;
 
-    public MenuItem(String itemName, float price, String description, String category) {
-        this.itemName = itemName;
-        this.price = price;
-        this.description = description;
-        this.category=category;
 
-    }
 
 
     public String getItemName() {
@@ -49,13 +47,40 @@ public class MenuItem {
         this.category = category;
     }
 
+    public LocalDate getAddedOn() {
+        return addedOn;
+    }
+
+    public void setAddedOn(LocalDate addedOn) {
+        this.addedOn = addedOn;
+    }
+
     public boolean isNew() {
-        return isNew;
-    }
+        return LocalDate.now().compareTo(addedOn.plusDays(30))<0;
 
-    public void setNew(boolean aNew) {
-        isNew = aNew;
     }
 
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MenuItem menuItem = (MenuItem) o;
+        return Objects.equals(itemName, menuItem.itemName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(itemName);
+    }
+
+    @Override
+    public String toString() {
+        return "ItemName='" + itemName + '\'' +
+                ", Price=" + price +
+                ", Description='" + description + '\'' +
+                ", Category='" + category + '\'' +
+                ","+(isNew()? "New":' ');
+    }
 }
